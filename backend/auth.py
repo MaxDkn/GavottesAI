@@ -3,7 +3,7 @@ from fastapi import Depends, HTTPException, status, APIRouter
 from sqlalchemy.orm import Session
 from backend.database import get_db
 from backend.models import User
-from backend.schemas import UserCreate, User as UserSchema
+from backend.schemas import UserCreate, User as UserSchema, UserResponse
 from jose import JWTError, jwt
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
@@ -87,6 +87,6 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
 
 
 # Route sécurisée pour obtenir les infos de l'utilisateur actuel
-@auth_router.get("/me", response_model=dict)
-def read_users_me(current_user: UserSchema = Depends(get_current_user)):
-    return {'user': current_user}
+@auth_router.get("/me", response_model=UserResponse)
+def read_users_me(current_user: UserSchema = Depends(get_current_user), db: Session = Depends(get_db)):
+    return db.query(User).filter(User.id==current_user.id).first()
