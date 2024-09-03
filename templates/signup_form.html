@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<form class="container" method="POST">
+    <br>
+    {% if success %}
+    <div class="alert alert-primary" role="alert">
+        {{ success }}
+    </div>
+    {% endif %}
+    {% if error %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endif %}
+    <br>
+    <h1 class="text-center">Create an account</h1>
+    <p class="text-center"><a href="{{ url_for('login') }}">Already an account ? Login here!</a></p>
+    <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" class="form-control" name='username'>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-control" name='password'>
+    </div>
+    <a class="icon-link icon-link-hover" href="{{ url_for('login') }}">
+    <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+</form>
+{% endblock %}

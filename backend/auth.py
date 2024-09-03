@@ -18,7 +18,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 auth_router = APIRouter()
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/get_user_token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/auth/get_user_token")
 
 
 def verify_password(plain_password, hashed_password):
@@ -90,3 +90,91 @@ def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(), db:
 @auth_router.get("/me", response_model=UserResponse)
 def read_users_me(current_user: UserSchema = Depends(get_current_user), db: Session = Depends(get_db)):
     return db.query(User).filter(User.id==current_user.id).first()
+
+@auth_router.get('/all', response_model=list[UserResponse])
+def all_users(db: Session = Depends(get_db
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+))    
+    return db.query(User).all()

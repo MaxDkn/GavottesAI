@@ -17,12 +17,7 @@ class User(BaseModel):
         from_attributes = True
 
 class UserResponse(User):
-    id: int
-    username: str
-    hashed_password: str
-
-    class Config:
-        from_attributes = True
+    pass
 
 #  House
 from pydantic import BaseModel
