@@ -1,5 +1,5 @@
 from fastapi import Request, APIRouter, Form
-from fastapi.responses import JSONResponse, HTMLResponse
+from fastapi.responses import JSONResponse, HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from backend.auth import login_for_access_token
 import httpx
@@ -12,33 +12,21 @@ api_url = "http://127.0.0.1:8000"
 
 @frontend_router.get('/')
 async def hello_world_html_page(request: Request):
-    list_test = []
-    list_test.append(request.cookies.get("username"))
-    list_test.append(request.cookies.get("password"))
-    list_test.append(request.cookies.get("test"))
-    
-    cookie_value = list_test
-    
-    return templates.TemplateResponse("index.html", {"request": request, 'cookies': cookie_value})
-
-
-@frontend_router.post("/cookie/")
-def create_cookie(message: str):
-    response = JSONResponse(content={})
-    response.set_cookie(key="username", value=message.upper())
-    response.set_cookie(key="password", value=message.lower())
-    response.set_cookie(key="token", value=message.center(20))
-    return response
-
-
-@frontend_router.get("/read-cookie/")
-def read_cookie(request: Request):
-    cookie_value = request.cookies.get("fakesession")
-    if cookie_value:
-        return {"cookie_value": cookie_value}
+    #  ------------------Ce code permet de vérifier si la session est active------------------
+    #  bearer_access_cookie = request.cookies.get('bearer access token')
+    bearer_access_token = request.cookies.get('fakesession')
+    if bearer_access_token:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(f'{api_url}/api/auth/me', headers={'accept': 'application/json',
+                                                                           'Authorization': f'Bearer {bearer_access_token}'})
+            if not response.status_code == 200:
+                return RedirectResponse(url='/login')
     else:
-        return {"message": "No cookie found"}
-    
+        return RedirectResponse(url='/sign-up')
+    #  ----------------------------------------------------------------------------------------------
+
+    return templates.TemplateResponse("index.html", {"request": request, 'username': response.json()['username']})
+
 
 @frontend_router.get('/login', name='login', response_class=HTMLResponse)
 async def login_page(request: Request):
@@ -64,7 +52,9 @@ async def login(request: Request, username: str = Form(...), password: str = For
         except httpx.RequestError as errc:
             msg = {"error": "something is wrong, don't worry, it's not your fault", 'server_error': str(errc)}
         else:
-            msg = {'success': 'Logged In! jwt: "' + response.json()['access_token']+ '"'}
+            index_redirect_for = RedirectResponse('/', status_code=303)
+            index_redirect_for.set_cookie(key='fakesession', value=response.json()['access_token'])
+            return index_redirect_for
     return templates.TemplateResponse("login_form.html", {"request": request, **msg})
 
 
@@ -75,15 +65,10 @@ async def sign_up_html_page(request: Request):
 
 @frontend_router.post('/sign-up', response_class=HTMLResponse)
 async def sign_up_html_page(request: Request, username: str = Form(...), password: str = Form(...)):
-    headers = {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-    }
-
-    data = {
-        'username': username,
-        'password': password,
-    }
+    headers = {'accept': 'application/json',
+               'Content-Type': 'application/json'}
+    data = {'username': username,
+            'password': password}
 
     async with httpx.AsyncClient() as client:
         try:
@@ -98,7 +83,4 @@ async def sign_up_html_page(request: Request, username: str = Form(...), passwor
         else:
             msg = {'success': 'Account created!'}
     templates_response = templates.TemplateResponse('signup_form.html', {'request': request, **msg})
-    if 'success' in msg.keys():
-        templates_response.set_cookie(key='username', value=username)
-        templates_response.set_cookie(key='password', value=password)
     return templates_response
