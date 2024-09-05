@@ -1,15 +1,14 @@
-# main.py
-from fastapi import Depends, HTTPException, status, APIRouter
-from sqlalchemy.orm import Session
-from backend.database import get_db
-from backend.models import User
-from backend.schemas import UserCreate, User as UserSchema, UserResponse
-from jose import JWTError, jwt
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from datetime import datetime, timedelta
 from typing import Union
 from jose import JWTError, jwt
+from sqlalchemy.orm import Session
 from passlib.context import CryptContext
+from datetime import datetime, timedelta
+from fastapi import Depends, HTTPException, status, APIRouter
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
+from backend.models import User
+from backend.database import get_db
+from backend.schemas import UserCreate, User as UserSchema, UserResponse
 
 SECRET_KEY = "967f22d0881ab29b5809974b93b457f0"  # Remplace par une clé plus sécurisée
 ALGORITHM = "HS256"
@@ -64,7 +63,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.username == user.username).first()
     if db_user:
-        raise HTTPException(status_code=400, detail="Username already registered")
+        raise HTTPException(status_code=400, detail="Nom d'Utilisateur déjà pris. Veuillez en choisir un autre.")
     hashed_password = get_password_hash(user.password)
     new_user = User(username=user.username, hashed_password=hashed_password)
     db.add(new_user)

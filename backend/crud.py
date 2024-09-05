@@ -1,9 +1,10 @@
-from backend.schemas import User as UserSchema, HouseCreate, HouseResponse, GetHouseID, EditHouse
-from backend.auth import get_current_user
-from fastapi import APIRouter, Depends, HTTPException, status
-from backend.database import get_db
 from sqlalchemy.orm import Session
+from fastapi import APIRouter, Depends, HTTPException, status
+
 from backend.models import House
+from backend.database import get_db
+from backend.auth import get_current_user
+from backend.schemas import User as UserSchema, HouseCreate, HouseResponse, GetHouseID, EditHouse
 #  Database => db: Session = Depends(get_db)
 #  User login => user: UserSchema = Depends(get_current_user)
 
@@ -24,6 +25,14 @@ async def all_houses_of_user(user: UserSchema = Depends(get_current_user), db: S
 
 @crud_router.post('/create', response_model=HouseResponse)
 async def create_house(house: HouseCreate, user: UserSchema = Depends(get_current_user), db: Session = Depends(get_db)):
+    if house.Respond:
+        if not house.Age:
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail='Argument \'Age\' is missing.')
+        if not house.Gender:
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail='Argument \'Gender\' is missing.')
+    else:
+        house.Age = None
+        house.Gender = None
     db_house = House(**house.dict(), SellerID=user.id)
     db.add(db_house)
     db.commit()
@@ -38,17 +47,27 @@ async def specific_house(house_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"House with ID {house_id} not found the database")
     return stored_house
 
+
 @crud_router.patch('/edit', response_model=HouseResponse)
 async def modify_house(house: EditHouse, user: UserSchema = Depends(get_current_user), db: Session = Depends(get_db)):
-    stored_house = db.query(House).filter(House.id==house.id and House.SellerID==user.id).first()
+    stored_house = db.query(House).filter(House.id==house.id, House.SellerID==user.id).first()
     if not stored_house:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"House with ID {house.id} not found in {user.username.title()}'s dataset")
+    if house.Respond:
+        if not house.Age:
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail='Argument \'Age\' is missing.')
+        if not house.Gender:
+            raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail='Argument \'Gender\' is missing.')
+    else:
+        if house.Respond == False:
+            house.Age = None
+            house.Gender = None
     update_data = house.dict(exclude_unset=True)
     for key, value in update_data.items():
         setattr(stored_house, key, value)
     db.commit()
     db.refresh(stored_house)
-    return db.query(House).filter(House.id==house.id and House.SellerID==user.id).first()
+    return db.query(House).filter(House.id==house.id, House.SellerID==user.id).first()
 
 #  Get all houses => /house/all
 #  Get all my houses => /house/me
@@ -56,7 +75,7 @@ async def modify_house(house: EditHouse, user: UserSchema = Depends(get_current_
 
 @crud_router.delete('/delete', response_model=dict)
 async def delete_house(house: GetHouseID, user: UserSchema = Depends(get_current_user), db: Session = Depends(get_db)):
-    stored_house = db.query(House).filter(House.id==house.id and House.SellerID==user.id).first()
+    stored_house = db.query(House).filter(House.id==house.id, House.SellerID==user.id).first()
     if not stored_house:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"House with ID {house.id} not found in {user.username.title()}'s dataset")
     db.delete(stored_house)

@@ -1,28 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-    <form class="container" method="POST">
-        <br>
-        {% if success %}
-        <div class="alert alert-primary" role="alert">
-            {{ success }}
-        </div>
-        {% endif %}
-        {% if error %}
-        <div class="alert alert-danger" role="alert">
-            {{ error }}
-        </div>
-        {% endif %}
-        <br>
-        <h1 class="text-center">Welcome back! Please LogIn!</h1>
-        <p class="text-center"><a href="{{ url_for('sign-up') }}">No account ? Create one here!</a></p>
+    <form method="POST">
+        <h1 class="text-center">Se connecter</h1>
+        <p class="text-center"><a href="{{ url_for('sign-up') }}">Créer un compte</a></p>
         <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="text" class="form-control" name='username'>
+            <label class="form-label">Nom d'utilisateur</label>
+            <input type="text" class="form-control" name='username' required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-control" name='password'>
+            <label class="form-label">Mot de passe</label>
+            <input type="password" class="form-control" name='password' required>
         </div>
-        <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+        <button type="submit" class="btn btn-primary" name="submit">Se connecter</button>
     </form>
 {% endblock %}

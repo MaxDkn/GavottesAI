@@ -1,6 +1,5 @@
-# models.py
-from sqlalchemy import Column, Integer, String, DateTime, Boolean, Float, func
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime, Boolean, Float, func
 
 
 Base = declarative_base()
@@ -23,9 +22,8 @@ class House(Base):
     DayTime = Column(DateTime, default=func.now())
     Respond = Column(Boolean)
     Size = Column(String)
-    SecurityGameOrAlarm = Column(Boolean)
+    SecurityGateOrAlarm = Column(Boolean)
     Dog = Column(String)
-    Age = Column(String)
-    Gender = Column(String)
+    Age = Column(String, nullable=True)
+    Gender = Column(String, nullable=True)
     Price = Column(Float)
-

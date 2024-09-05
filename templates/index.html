@@ -1,4 +1,47 @@
-{% extends "base.html" %}
+{% extends "home_base.html" %}
 {% block content %}
-    <h1>Hello {{ username }}</h1>
+    <div class="container">
+        {% if tables %}
+        <h1 class="h1">Voici vos adresses, {{ username.title() }}:</h1>
+        <label class="form-label">Montant total des ventes: {{ total_price }}€</label>
+    </div>
+    <br>    
+    
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nom de la rue</th>
+                <th scope="col">Date et Heure</th>
+                <th scope="col">Prix</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for table in tables %}
+            <tr class="align-middle">
+                <th scope="row">
+                    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hoverlink-underline-dark link-dark" href="{{ url_for('edit', house_id=table.id)}}">{{ table.AddressNumber }}</a>
+                </th>
+                <td class="align-middle">
+                    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hoverlink-underline-dark link-dark" href="{{ url_for('edit', house_id=table.id)}}">{{ table.StreetName }}</a>
+                </td>
+                <td class="align-middle">
+                    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hoverlink-underline-dark link-dark" href="{{ url_for('edit', house_id=table.id)}}">{{ table.DayTime }}</a>
+                </td>
+                <td class="align-middle">
+                    <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hoverlink-underline-dark link-dark" href="{{ url_for('edit', house_id=table.id)}}">{{ table.Price }}</a>
+                </td>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <h1 class="h1">Bienvenue, {{ username.title() }} !</h1>
+        <label class="form-label">Ceci est le menu principal où toutes les adresses apparaitront.</label>
+    </div>
+    {% endif %}
+    <nav class="nav fixed-bottom nav-pills justify-content-center flex-column flex-sm-row bg-dark">
+        <a class="flex-sm-fill text-center text-sm-center nav-link active m-3" aria-current="page" href="{{ url_for('create')}}">
+            <img src="{{ url_for('static', path='add.svg') }}" alt="Logo" width="40" height="35" class="d-inline-block align-text-top">
+        </a>
+      </nav>
 {% endblock %}

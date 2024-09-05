@@ -1,13 +1,13 @@
-# schemas.py
-from pydantic import BaseModel
 import datetime
 from typing import Optional
+from pydantic import BaseModel
 
 
-#  User
+# User models
 class UserCreate(BaseModel):
     username: str
     password: str
+
 
 class User(BaseModel):
     id: int
@@ -16,52 +16,40 @@ class User(BaseModel):
     class Config:
         from_attributes = True
 
+
 class UserResponse(User):
     pass
 
-#  House
-from pydantic import BaseModel
-import datetime
 
-# Classe de base avec les attributs communs
+# House models
 class HouseBase(BaseModel):
     AddressNumber: int
     StreetName: str
     Respond: bool
     Size: str
-    SecurityGameOrAlarm: bool
+    SecurityGateOrAlarm: bool
     Dog: str
-    Age: str
-    Gender: str
+    Age: Optional[str] = None
+    Gender: Optional[str] = None
     Price: float
 
     class Config:
         extra = "forbid"
 
-# Classe pour la création de maison, hérite de HouseBase
+
 class HouseCreate(HouseBase):
     pass
 
-# Classe pour la réponse avec des attributs supplémentaires
+
 class HouseResponse(HouseBase):
     id: int
     SellerID: int
-    AddressNumber: int
-    StreetName: str
     DayTime: datetime.datetime
-    Respond: bool
-    Size: str
-    SecurityGameOrAlarm: bool
-    Dog: str
-    Age: str
-    Gender: str
-    Price: float
-    
+
     class Config:
         from_attributes = True
 
 
-# Classe pour obtenir l'identifiant d'une maison
 class GetHouseID(BaseModel):
     id: int
 
@@ -73,9 +61,9 @@ class GetHouseID(BaseModel):
 class EditHouse(GetHouseID):
     AddressNumber: Optional[int] = None
     StreetName: Optional[str] = None
-    Respond: Optional[str] = None
+    Respond: Optional[bool] = None
     Size: Optional[str] = None
-    SecurityGameOrAlarm: Optional[bool] = None
+    SecurityGateOrAlarm: Optional[bool] = None
     Dog: Optional[str] = None
     Age: Optional[str] = None
     Gender: Optional[str] = None
