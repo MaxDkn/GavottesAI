@@ -104,7 +104,10 @@ async def edit_html_page(request: Request, house_id: int):
         async with httpx.AsyncClient() as client:
             response = await client.get(f'{api_url}/api/house/{house_id}', headers=headers)
             if not response.status_code == 200:
-                notification['error'] = response.json()['detail']
+                try:
+                    notification['error'] = response.json()['detail']
+                except:
+                    notification['error'] = "Il s'est produit une erreur."
     else:
         return RedirectResponse(url='/landing-page')
     
@@ -139,7 +142,10 @@ async def edit_send_to_api(request: Request, house_id: int, AddressNumber: int =
             if len(diff) > 1:
                 response = await client.patch(f'{api_url}/api/house/edit', headers=headers, json=diff)
                 if not response.status_code == 200:
-                    notification['error'] = response.json()['detail']
+                    try:
+                        notification['error'] = response.json()['detail']
+                    except:
+                        notification['error'] = "Il s'est produit une erreur."
                     return templates.TemplateResponse('update_form.html', {'request': request, 'house_id': house_id, **response_original_house.json(), **notification})
     else:
         return RedirectResponse(url='/landing-page')
@@ -202,7 +208,10 @@ async def login_post_form(request: Request, username: str = Form(...), password:
     async with httpx.AsyncClient() as client:
         response = await client.post(f'{api_url}/api/auth/get_user_token', headers=headers, data=data)
         if not response.status_code == 200:
-            notification['error'] = response.json()
+            try:
+                notification['error'] = response.json()['detail']
+            except:
+                notification['error'] = "Il s'est produit une erreur."
         else:
             index_redirect_for = RedirectResponse('/', status_code=303)
             index_redirect_for.set_cookie(key='fakesession', value=response.json()['access_token'])
@@ -235,7 +244,10 @@ async def sign_up_post_form(request: Request, username: str = Form(...), passwor
     async with httpx.AsyncClient() as client:
         response = await client.post(f'{api_url}/api/auth/create_user', headers=headers, json=data)
         if not response.status_code == 200:
-            notification['error'] = response.json()['detail']
+            try:
+                notification['error'] = response.json()['detail']
+            except:
+                notification['error'] = "Il s'est produit une erreur."
         else:
             async with httpx.AsyncClient() as client:
                 headers = {'accept': 'application/json',
@@ -249,7 +261,10 @@ async def sign_up_post_form(request: Request, username: str = Form(...), passwor
                         'client_secret': 'string'}
                 response = await client.post(f'{api_url}/api/auth/get_user_token', headers=headers, data=data)
                 if not response.status_code == 200:
-                    notification['error'] = response.json()['detail']
+                    try:
+                        notification['error'] = response.json()['detail']
+                    except:
+                        notification['error'] = "Il s'est produit une erreur."
                 else:
                     response_page = RedirectResponse('/', status_code=303)
                     response_page.set_cookie('fakesession', value=response.json()['access_token'])
