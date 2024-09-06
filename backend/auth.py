@@ -1,3 +1,4 @@
+import os
 from typing import Union
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
@@ -10,7 +11,8 @@ from backend.models import User
 from backend.database import get_db
 from backend.schemas import UserCreate, User as UserSchema, UserResponse
 
-SECRET_KEY = "967f22d0881ab29b5809974b93b457f0"  # Remplace par une clé plus sécurisée
+
+SECRET_KEY = os.getenv("SECRET_KEY")  # Remplace par une clé plus sécurisée
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

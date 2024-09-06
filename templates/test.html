@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePredictorAI</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">HomePredictorAI</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary text-white" href="{{ url_for('login') }}">Connection</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="text-center mb-4">
+                    <h1>Welcome to HomePredictorAI</h1>
+                    <p class="lead">Transforming the way you approach door-to-door sales with the power of AI.</p>
+                </div>
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">About the Project</h5>
+                        <p class="card-text">
+                            HomePredictorAI is an innovative tool designed to enhance your door-to-door sales strategies by leveraging artificial intelligence. 
+                            Our goal is to predict the likelihood of a sale based on various home attributes, allowing you to focus your efforts more effectively.
+                        </p>
+                        <p class="card-text">
+                            Whether you're selling for a school project, a community initiative, or a business venture, HomePredictorAI provides data-driven insights 
+                            to make your sales approach smarter and more efficient.
+                        </p>
+                        <div class="text-center mt-4">
+                            <a href="https://github.com/MaxDkn/HomePredictorAI" target="_blank" class="btn btn-outline-dark">Explore on GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

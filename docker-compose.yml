@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  gavottesai:
+    build: .
+    container_name: gavottesai_container
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=sqlite:///./test.db  # Update this with your actual database URL if different
+    restart: always

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GavottesAI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="icon" href="{{ url_for('static', path='logo-light.svg') }}" type="image/svg+xml">
+  <!-- Option 1: Include in HTML -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+<body>
+  <nav class="navbar bg-body-tertiary sticky-top" data-bs-theme="dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="">
+        <img src="{{ url_for('static', path='logo-light.svg') }}" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
+        GavottesAI
+      </a>
+      <a class="btn btn-primary" href="{{ url_for('sign-up') }}">Connexion</a>
+      
+      </div>
+    </div>
+  </nav>
+  <br>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="text-center mb-4">
+                <h1>Bienvenue dans GavottesAI</h1>
+                <p class="lead">Transformez votre façon d'aborder les ventes en porte-à-porte grâce à la puissance de l'IA.</p>
+            </div>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">À propos du projet</h5>
+                    <p class="card-text">
+                      GavottesAI est une application web qui prédit la probabilité d'achat lors de ventes porte-à-porte en analysant des critères 
+                      liés aux maisons des acheteurs potentiels.
+                    </p>
+                    <p class="card-text">
+                      En utilisant l'IA et l'analyse de données,
+                      GavottesAI vous aide à mieux cibler vos ventes et à maximiser vos chances de succès.
+                    </p>
+                    <div class="text-center mt-4">
+                        <a href="https://github.com/MaxDkn/HomePredictorAI" target="_blank" class="btn btn-outline-dark">Voir le code source</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
