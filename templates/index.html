@@ -41,9 +41,12 @@
         <label class="form-label">Ceci est le menu principal où toutes les adresses apparaitront.</label>
     </div>
     {% endif %}
-    <nav class="nav fixed-bottom nav-pills justify-content-center flex-column flex-sm-row bg-dark">
+    <!--<nav class="nav fixed-bottom nav-pills justify-content-center flex-column flex-sm-row bg-dark">
         <a class="flex-sm-fill text-center text-sm-center nav-link active m-3" aria-current="page" href="{{ url_for('create')}}">
             <img src="{{ url_for('static', path='add.svg') }}" alt="Logo" width="40" height="35" class="d-inline-block align-text-top">
         </a>
-      </nav>
+      </nav>-->
+    <a class="nav fixed-bottom nav-pills justify-content-center bg-dark flex-sm-fill text-center text-sm-center nav-link m-3" aria-current="page" href="{{ url_for('create')}}">
+    <img src="{{ url_for('static', path='add.svg') }}" alt="Logo" width="40" height="35" class="d-inline-block align-text-top">
+    </a>
 {% endblock %}

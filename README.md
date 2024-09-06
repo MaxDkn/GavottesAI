@@ -6,7 +6,8 @@ GavottesAI est une application web créée pour un projet scolaire au lycée. Lo
 
 ## Détails du Projet
 
-Le projet utilise FastAPI comme backend, fonctionnant entièrement en API. Une interface web basique est intégrée dans `backend/frontend.py`, utilisant Bootstrap et Jinja2 pour afficher les résultats de manière simple. Le projet est dockerisé pour faciliter le déploiement.
+Le projet utilise FastAPI comme backend, fonctionnant entièrement en API. Une interface web basique est intégrée dans `backend/frontend.py`, utilisant Bootstrap et Jinja2 pour afficher les résultats de manière simple. Le projet est dockerisé pour faciliter le déploiement. Le projet est hébergé sur `render.com` ([lien du site](https://gavottesai.onrender.com/)).
+
 
 ## Lancer l'Application
 
@@ -23,3 +24,13 @@ Le projet utilise FastAPI comme backend, fonctionnant entièrement en API. Une i
     pip install --no-cache-dir -r requirements.txt
     uvicorn backend.main:app --host 0.0.0.0 --port 8000
     ```
+
+## Screenshot
+
+![Landing-Page](screenshots/landing-page.jpeg)
+
+![Index](screenshots/index.jpeg)
+
+![Edit Page](screenshots/edit.jpeg)
+
+![FastAPI docs](screenshots/docs.jpeg)

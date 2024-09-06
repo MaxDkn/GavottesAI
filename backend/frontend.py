@@ -168,7 +168,7 @@ async def delete_house(request: Request, house_id: int):
 @frontend_router.get('/logout', name='logout')
 async def delete_session_cookies(request: Request):
     request.cookies.clear()
-    redirect_response = RedirectResponse('/login', status_code=303)
+    redirect_response = RedirectResponse('/landing-page', status_code=303)
     redirect_response.delete_cookie(key='fakesession')
     return redirect_response
 
@@ -202,7 +202,7 @@ async def login_post_form(request: Request, username: str = Form(...), password:
     async with httpx.AsyncClient() as client:
         response = await client.post(f'{api_url}/api/auth/get_user_token', headers=headers, data=data)
         if not response.status_code == 200:
-            notification['error'] = response.json()['detail']
+            notification['error'] = response.json()
         else:
             index_redirect_for = RedirectResponse('/', status_code=303)
             index_redirect_for.set_cookie(key='fakesession', value=response.json()['access_token'])
