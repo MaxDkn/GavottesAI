@@ -34,7 +34,7 @@ async def page_with_all_houses(request: Request):
     total_price = 0
     for table in tables:
         date_obj = datetime.strptime(table['DayTime'], "%Y-%m-%dT%H:%M:%S")
-        table['DayTime'] = str(date_obj.day) + date_obj.strftime(" %B %H:%M")
+        table['DayTime'] = str(date_obj.day) + date_obj.strftime(" %B ") + str(int(date_obj.hour) + 2) + date_obj.strftime(":%M")
         total_price += table['Price']
         table['Price'] = f"{int(table['Price'])}€" if int(table['Price']) == table['Price'] else f"{table['Price']}€"
 
