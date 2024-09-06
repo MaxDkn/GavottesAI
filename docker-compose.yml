@@ -8,6 +8,6 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-    environment:
-      - DATABASE_URL=sqlite:///./test.db  # Update this with your actual database URL if different
+    env_file:
+      - .env
     restart: always
