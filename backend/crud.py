@@ -9,7 +9,6 @@ from backend.schemas import User as UserSchema, HouseCreate, HouseResponse, GetH
 #  User login => user: UserSchema = Depends(get_current_user)
 
 
-
 crud_router = APIRouter()
 
 
@@ -72,6 +71,7 @@ async def modify_house(house: EditHouse, user: UserSchema = Depends(get_current_
 #  Get all houses => /house/all
 #  Get all my houses => /house/me
 #  Get specific house => /house/{id}
+
 
 @crud_router.delete('/delete', response_model=dict)
 async def delete_house(house: GetHouseID, user: UserSchema = Depends(get_current_user), db: Session = Depends(get_db)):

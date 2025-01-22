@@ -1,0 +1,5 @@
+Page de connexion pour créer une vente.
+lorsqu'on crée un vente, on possède un lien de connexion et pour rejoindre
+il suffit de cliquer sur ce lien.
+
+

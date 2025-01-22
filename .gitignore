@@ -1,9 +1,11 @@
 *.venv
 *.db
 __pycache__/
-venv/
+**/venv
+**/.venv
 .env
 .DS_Store
 *.pyc
 *.pyo
 *.pyd
+.supabase
